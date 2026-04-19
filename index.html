@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eneremit</title>
+
+<style>
+body {
+  margin:0;
+  font-family:"Times New Roman", serif;
+  background:white;
+  color:black;
+  display:flex;
+  justify-content:center;
+}
+
+.container {
+  width:100%;
+  max-width:420px;
+  text-align:center;
+  padding:40px 20px;
+}
+
+.avatar {
+  width:80px;
+  height:80px;
+  border-radius:50%;
+}
+
+h1 {
+  font-weight:400;
+  margin-top:15px;
+}
+
+.divider {
+  height:1px;
+  background:black;
+  margin:25px 0;
+}
+
+.icons {
+  display:flex;
+  justify-content:center;
+  gap:18px;
+  font-size:14px;
+}
+
+.icons a {
+  text-decoration:none;
+  color:black;
+  opacity:0.85;
+}
+
+/* WIDGET */
+#eneremit-activity-widget {
+  font-size:14px;
+  line-height:1.6;
+  text-align:left;
+}
+
+.eneremit-row {
+  display:grid;
+  grid-template-columns:max-content 1fr;
+  margin-top:6px;
+  text-decoration:none;
+  color:black;
+}
+
+.eneremit-label::after {
+  content:" ";
+}
+
+.eneremit-value {
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.eneremit-row:hover .eneremit-value {
+  text-decoration:underline;
+}
+
+@media (max-width:500px){
+  .eneremit-value {
+    white-space:normal;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>eneremit</h1>
+
+<div class="divider"></div>
+
+<div class="icons">
+  <a href="https://x.com/">𝕏</a>
+  <a href="https://www.last.fm/user/eneremit">◉</a>
+  <a href="https://www.goodreads.com/user/show/138343303">as</a>
+  <a href="https://letterboxd.com/eneremit/">◐</a>
+  <a href="https://www.tumblr.com/">t</a>
+</div>
+
+<div class="divider"></div>
+
+<div id="eneremit-activity-widget">
+
+<a class="eneremit-row" id="gr-link" target="_blank">
+<span class="eneremit-label" id="gr-label">Last Read:</span>
+<span class="eneremit-value" id="gr-text">-</span>
+</a>
+
+<a class="eneremit-row" id="lb-link" target="_blank">
+<span class="eneremit-label" id="lb-label">Last Watched:</span>
+<span class="eneremit-value" id="lb-text">-</span>
+</a>
+
+<a class="eneremit-row" id="lfm-link" target="_blank">
+<span class="eneremit-label" id="lfm-label">Last Listened To:</span>
+<span class="eneremit-value" id="lfm-text">-</span>
+</a>
+
+</div>
+
+</div>
+
+<script>
+const API = "https://eneremit-widget.eneremit.workers.dev/json";
+
+async function loadWidget() {
+  try {
+    const res = await fetch(API);
+    const data = await res.json();
+
+    document.getElementById("gr-text").textContent = data.goodreads.text;
+    document.getElementById("gr-label").textContent = data.goodreads.label;
+    document.getElementById("gr-link").href = data.goodreads.url;
+
+    document.getElementById("lb-text").textContent = data.letterboxd.text;
+    document.getElementById("lb-label").textContent = data.letterboxd.label;
+    document.getElementById("lb-link").href = data.letterboxd.url;
+
+    document.getElementById("lfm-text").textContent = data.lastfm.text;
+    document.getElementById("lfm-label").textContent = data.lastfm.label;
+    document.getElementById("lfm-link").href = data.lastfm.url;
+
+  } catch(e){}
+}
+
+loadWidget();
+
+/* auto refresh every 2.5 minutes */
+setInterval(loadWidget, 150000);
+</script>
+
+</body>
+</html>
