@@ -67,48 +67,50 @@ html, body {
   opacity: 0;
   transition: max-height .4s ease, opacity .3s ease, margin .4s ease;
 }
-.info-panel.active { max-height: 460px; opacity: 1; margin-bottom: 12px; }
+.info-panel.active { max-height: 480px; opacity: 1; margin-bottom: 22px; }
 
 .bio-name {
   font-size: 13px;
   color: var(--chrome);
   text-align: center;
   letter-spacing: 0.3px;
-  margin-top: 14px;
+  margin-top: 6px;
 }
 .bio-location {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
+  position: relative;
+  text-align: center;
   font-size: 13px;
   color: var(--chrome);
   margin: 6px 0 24px;
 }
-.bio-location svg { width: 12px; height: 12px; fill: var(--icon); flex-shrink: 0; }
+.bio-location-text { position: relative; display: inline-block; }
+.bio-location-text svg {
+  position: absolute; right: 100%; top: 50%; transform: translateY(-50%);
+  margin-right: 5px; width: 12px; height: 12px; fill: var(--icon); flex-shrink: 0;
+}
 .tip-amounts { display: flex; justify-content: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
 .tip-btn {
-  width: 40px; height: 40px; border-radius: 50%;
+  width: 34px; height: 34px; border-radius: 50%;
   border: 1.5px solid var(--accent-dark);
   background: transparent; color: var(--text);
-  font-family: inherit; font-size: 12px; cursor: pointer;
+  font-family: inherit; font-size: 11px; cursor: pointer;
   transition: all .3s ease;
 }
 .tip-btn:hover, .tip-btn.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
-.custom-amount, .message-box {
-  width: 100%; padding: 9px 14px;
+.custom-amount {
+  width: 100%; padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: 3px;
-  background: transparent; font-family: inherit; font-size: 12px; color: var(--text);
+  background: transparent; font-family: inherit; font-size: 11px; color: var(--text);
   margin: 0 auto 10px; display: block; text-align: center; outline: none;
   transition: border-color .3s;
 }
-.message-box { resize: vertical; min-height: 42px; text-align: left; }
-.custom-amount:focus, .message-box:focus { border-color: var(--accent-dark); }
-.custom-amount::placeholder, .message-box::placeholder { color: #bbb; font-style: normal; }
+.custom-amount:focus { border-color: var(--accent-dark); }
+.custom-amount::placeholder { color: #bbb; font-style: normal; }
 .panel-center { display: flex; flex-direction: column; align-items: center; }
 .paypal-btn {
   display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 8px;
   padding: 9px 24px; background: var(--accent); color: #fff;
   border: none; border-radius: 3px;
   font-family: inherit; font-size: 13px; letter-spacing: 1px;
@@ -117,7 +119,7 @@ html, body {
 .paypal-btn:hover { background: var(--accent-dark); }
 .paypal-btn svg { width: 15px; height: 15px; fill: currentColor; }
 .close-panel {
-  display: block; margin: 14px auto 0; font-size: 11px; letter-spacing: 1px;
+  display: block; margin: 20px auto 0; font-size: 11px; letter-spacing: 1px;
   color: var(--text-light); background: none; border: none; cursor: pointer; font-family: inherit;
 }
 .close-panel:hover { color: var(--text); }
@@ -143,6 +145,7 @@ html, body {
   grid-column: 1;
   color: var(--chrome); font-weight: 400; white-space: nowrap;
   align-self: baseline;
+  text-align: right;
 }
 #eneremit-activity-widget .eneremit-value {
   grid-column: 2;
@@ -188,18 +191,18 @@ html, body {
 .search-form:focus-within { border-color: var(--accent); }
 .search-icon-btn {
   display: flex; align-items: center; justify-content: center;
-  padding: 0 12px;
+  padding: 0 10px;
   align-self: stretch;
   border-right: 1px solid var(--border);
   color: var(--icon);
   background: rgba(97,61,18,0.04);
 }
-.search-icon-btn svg { width: 15px; height: 15px; }
+.search-icon-btn svg { width: 13px; height: 13px; }
 #socialSearch {
   flex: 1; min-width: 0;
   border: none; outline: none; background: transparent;
-  font-family: inherit; font-size: 13px; color: var(--text);
-  padding: 10px 14px;
+  font-family: inherit; font-size: 12px; color: var(--text);
+  padding: 8px 12px;
 }
 #socialSearch::placeholder { color: #999; font-style: normal; }
 
@@ -256,18 +259,16 @@ html, body {
     <div class="panel-center">
       <div class="bio-name">Julián</div>
       <div class="bio-location">
-        <svg viewBox="0 0 256 256"><path d="M128,16a88.1,88.1,0,0,0-88,88c0,75.3,80,132.17,83.41,134.55a8,8,0,0,0,9.18,0C136,236.17,216,179.3,216,104A88.1,88.1,0,0,0,128,16Zm0,56a32,32,0,1,1-32,32A32,32,0,0,1,128,72Z"/></svg>
-        <span>Puerto Rico</span>
+        <span class="bio-location-text"><svg viewBox="0 0 256 256"><path d="M128,16a88.1,88.1,0,0,0-88,88c0,75.3,80,132.17,83.41,134.55a8,8,0,0,0,9.18,0C136,236.17,216,179.3,216,104A88.1,88.1,0,0,0,128,16Zm0,56a32,32,0,1,1-32,32A32,32,0,0,1,128,72Z"/></svg>Puerto Rico</span>
       </div>
       <div class="tip-amounts">
-        <button class="tip-btn" data-amount="2">$2</button>
         <button class="tip-btn" data-amount="5">$5</button>
         <button class="tip-btn" data-amount="10">$10</button>
+        <button class="tip-btn" data-amount="15">$15</button>
         <button class="tip-btn" data-amount="20">$20</button>
-        <button class="tip-btn" data-amount="50">$50</button>
+        <button class="tip-btn" data-amount="25">$25</button>
       </div>
-      <input type="text" class="custom-amount" id="customAmount" placeholder="Or enter another amount">
-      <textarea class="message-box" id="tipMessage" placeholder="Your message (optional)"></textarea>
+      <input type="text" class="custom-amount" id="customAmount" placeholder="Enter amount">
       <a href="https://www.paypal.com/paypalme/chembofio" class="paypal-btn" id="paypalBtn">
         <svg viewBox="0 0 24 24"><path d="M15.607 4.653H8.941L6.645 19.251H1.82L4.862 0h7.995c3.754 0 6.375 2.294 6.473 5.513-.648-.478-2.105-.86-3.722-.86m6.57 5.546c0 3.41-3.01 6.853-6.958 6.853h-2.493L11.595 24H6.74l1.845-11.538h3.592c4.208 0 7.346-3.634 7.153-6.949a5.24 5.24 0 0 1 2.848 4.686M9.653 5.546h6.408c.907 0 1.942.222 2.363.541-.195 2.741-2.655 5.483-6.441 5.483H8.714Z"/></svg>
         PayPal
@@ -334,7 +335,6 @@ closeBtn.addEventListener('click', () => panel.classList.remove('active'));
 
 const tipBtns = document.querySelectorAll('.tip-btn');
 const customAmount = document.getElementById('customAmount');
-const tipMessage = document.getElementById('tipMessage');
 const paypalBtn = document.getElementById('paypalBtn');
 let selectedAmount = '';
 
@@ -352,12 +352,10 @@ customAmount.addEventListener('input', () => {
   tipBtns.forEach(b => b.classList.remove('selected'));
   updatePaypalLink();
 });
-tipMessage.addEventListener('input', updatePaypalLink);
 function updatePaypalLink() {
   const amount = selectedAmount || customAmount.value.replace(/[^0-9.]/g, '') || '';
-  const message = encodeURIComponent(tipMessage.value || '');
   let url = 'https://www.paypal.com/paypalme/chembofio';
-  if (amount) { url += '/' + amount; if (message) url += '/' + message; }
+  if (amount) { url += '/' + amount; }
   paypalBtn.href = url;
 }
 
