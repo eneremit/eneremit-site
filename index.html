@@ -57,6 +57,7 @@ html, body {
   margin-bottom: 32px;
 }
 .title:hover { opacity: .7; }
+.title:has(+ .info-panel.active) { margin-bottom: 4px; }
 
 /* INFO PANEL — pushes content down naturally when open, no overlay trick */
 .info-panel {
@@ -74,20 +75,18 @@ html, body {
   color: var(--chrome);
   text-align: center;
   letter-spacing: 0.3px;
-  margin-top: 6px;
+  margin-top: 2px;
 }
 .bio-location {
-  position: relative;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   font-size: 13px;
   color: var(--chrome);
   margin: 6px 0 24px;
 }
-.bio-location-text { position: relative; display: inline-block; }
-.bio-location-text svg {
-  position: absolute; right: 100%; top: 50%; transform: translateY(-50%);
-  margin-right: 5px; width: 12px; height: 12px; fill: var(--icon); flex-shrink: 0;
-}
+.bio-location svg { width: 12px; height: 12px; fill: var(--icon); flex-shrink: 0; }
 .tip-amounts { display: flex; justify-content: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
 .tip-btn {
   width: 34px; height: 34px; border-radius: 50%;
@@ -124,8 +123,10 @@ html, body {
 }
 .close-panel:hover { color: var(--text); }
 
-/* WIDGET — one shared grid across all rows so labels truly line up,
-   not three independent grids each sizing to their own label width */
+/* WIDGET — deliberately the simplest possible technique: plain inline
+   text flow, no grid, no flex. Nothing here can stretch or leave a gap —
+   the value just follows the label the way text naturally does. Rows
+   stack as block-level siblings, so labels start flush-left automatically. */
 #eneremit-activity-widget {
   width: fit-content;
   max-width: min(380px, 88vw);
@@ -133,25 +134,22 @@ html, body {
   font-family: inherit;
   font-size: 13px;
   line-height: 1.7;
-  display: grid;
-  grid-template-columns: max-content minmax(0,1fr);
-  column-gap: 0.4em;
-  row-gap: 0.3em;
 }
-#eneremit-activity-widget .eneremit-row {
-  display: contents;
+.eneremit-row {
+  margin-top: 0.3em;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
-#eneremit-activity-widget .eneremit-label {
-  grid-column: 1;
-  color: var(--chrome); font-weight: 400; white-space: nowrap;
-  align-self: baseline;
-  text-align: right;
+.eneremit-row:first-child { margin-top: 0; }
+.eneremit-label {
+  color: var(--chrome); font-weight: 400;
 }
 #eneremit-activity-widget .eneremit-value {
-  grid-column: 2;
-  color: var(--widget-value); font-weight: 400; min-width: 0;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: none;
-  align-self: baseline;
+  color: var(--widget-value); font-weight: 400; text-decoration: none;
+  margin-left: 0.4em;
 }
 #eneremit-activity-widget .eneremit-value:hover {
   text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
@@ -258,9 +256,7 @@ html, body {
   <div class="info-panel" id="infoPanel">
     <div class="panel-center">
       <div class="bio-name">Julián</div>
-      <div class="bio-location">
-        <span class="bio-location-text"><svg viewBox="0 0 256 256"><path d="M128,16a88.1,88.1,0,0,0-88,88c0,75.3,80,132.17,83.41,134.55a8,8,0,0,0,9.18,0C136,236.17,216,179.3,216,104A88.1,88.1,0,0,0,128,16Zm0,56a32,32,0,1,1-32,32A32,32,0,0,1,128,72Z"/></svg>Puerto Rico</span>
-      </div>
+      <div class="bio-location"><svg viewBox="0 0 256 256"><path d="M128,16a88.1,88.1,0,0,0-88,88c0,75.3,80,132.17,83.41,134.55a8,8,0,0,0,9.18,0C136,236.17,216,179.3,216,104A88.1,88.1,0,0,0,128,16Zm0,56a32,32,0,1,1-32,32A32,32,0,0,1,128,72Z"/></svg>Puerto Rico</div>
       <div class="tip-amounts">
         <button class="tip-btn" data-amount="5">$5</button>
         <button class="tip-btn" data-amount="10">$10</button>
@@ -299,18 +295,9 @@ html, body {
   </div>
 
   <div id="eneremit-activity-widget" aria-live="polite">
-    <div class="eneremit-row">
-      <span class="eneremit-label" id="eneremit-lfm-label">Last Listened To:</span>
-      <a class="eneremit-value" id="eneremit-lfm-text" href="https://www.last.fm/user/eneremit">-</a>
-    </div>
-    <div class="eneremit-row">
-      <span class="eneremit-label" id="eneremit-lb-label">Last Watched:</span>
-      <a class="eneremit-value" id="eneremit-lb-text" href="https://letterboxd.com/eneremit/">-</a>
-    </div>
-    <div class="eneremit-row">
-      <span class="eneremit-label" id="eneremit-gr-label">Last Read:</span>
-      <a class="eneremit-value" id="eneremit-gr-text" href="https://www.goodreads.com/user/show/138343303-julian">-</a>
-    </div>
+    <div class="eneremit-row"><span class="eneremit-label" id="eneremit-lfm-label">Last Listened To:</span><a class="eneremit-value" id="eneremit-lfm-text" href="https://www.last.fm/user/eneremit">-</a></div>
+    <div class="eneremit-row"><span class="eneremit-label" id="eneremit-lb-label">Last Watched:</span><a class="eneremit-value" id="eneremit-lb-text" href="https://letterboxd.com/eneremit/">-</a></div>
+    <div class="eneremit-row"><span class="eneremit-label" id="eneremit-gr-label">Last Read:</span><a class="eneremit-value" id="eneremit-gr-text" href="https://www.goodreads.com/user/show/138343303-julian">-</a></div>
   </div>
 
   <div class="search-wrap">
